@@ -1,0 +1,36 @@
+#!name=CapCut Premium Unlock
+#!desc=Mở khóa tính năng Premium trong ứng dụng CapCut bằng cách giả lập thuê bao
+#!author=Owl
+#!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/CapCut.png
+#!homepage=https://www.capcut.com
+
+[Script]
+http-response ^https:\/\/api\.revenuecat\.com\/v1\/subscribers\/.+ script-path=capcut_premium.js, requires-body=true, tag=CapCut Premium Unlock
+http-response ^https:\/\/api\.revenuecat\.com\/v1\/receipts script-path=capcut_premium.js, requires-body=true, tag=CapCut Receipt Patch
+
+[MITM]
+hostname = api.revenuecat.com
+
+[Script Content]
+# capcut_premium.js
+module.exports = function (responseBody) {
+  let obj = JSON.parse(responseBody);
+  obj.subscriber = {
+    entitlements: {
+      premium: {
+        expires_date: "2099-12-31T23:59:59Z",
+        product_identifier: "capcut.premium.yearly",
+        purchase_date: "2020-01-01T00:00:00Z"
+      }
+    },
+    original_app_user_id: "copilot_user",
+    subscriptions: {
+      "capcut.premium.yearly": {
+        expires_date: "2099-12-31T23:59:59Z",
+        original_purchase_date: "2020-01-01T00:00:00Z",
+        purchase_date: "2020-01-01T00:00:00Z"
+      }
+    }
+  };
+  return JSON.stringify(obj);
+};
