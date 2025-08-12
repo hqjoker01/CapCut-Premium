@@ -1,6 +1,6 @@
-#!name=CapCut Premium Unlock
-#!desc=Mở khóa tính năng Premium trong ứng dụng CapCut bằng cách giả lập thuê bao
-#!author=Owl
+#!name=CapCut Premium + AdBlock
+#!desc=Mở khóa Premium và chặn quảng cáo trong ứng dụng CapCut
+#!author=OwlCopilot
 #!icon=https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/CapCut.png
 #!homepage=https://www.capcut.com
 
@@ -8,8 +8,12 @@
 http-response ^https:\/\/api\.revenuecat\.com\/v1\/subscribers\/.+ script-path=capcut_premium.js, requires-body=true, tag=CapCut Premium Unlock
 http-response ^https:\/\/api\.revenuecat\.com\/v1\/receipts script-path=capcut_premium.js, requires-body=true, tag=CapCut Receipt Patch
 
+[Rewrite]
+^https?:\/\/ads\.capcut\.com\/.* - reject
+^https?:\/\/tracking\.capcut\.com\/.* - reject
+
 [MITM]
-hostname = api.revenuecat.com
+hostname = api.revenuecat.com, ads.capcut.com, tracking.capcut.com
 
 [Script Content]
 # capcut_premium.js
